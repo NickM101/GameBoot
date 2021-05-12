@@ -1,0 +1,12 @@
+{
+  "name": "game_boot",
+  "displayName": "game_boot",
+  "expo": {
+    "name": "game_boot",
+    "slug": "game_boot",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
