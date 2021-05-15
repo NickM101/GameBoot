@@ -4,10 +4,16 @@ import UserGames from "../components/UserGames";
 
 import * as all_games from "../assets/games.json";
 import AnimatedHeader from "../components/AnimatedHeader";
-import { Animated } from "react-native";
+import { Animated, FlatList, View } from "react-native";
+import Header from "../components/Header";
+import GameLists from "../components/GameLists";
+import { useHomeData, usePopular } from "../utils/api";
 
 const HomeScreen = () => {
   const scroll = React.useRef(new Animated.Value(0)).current;
+
+  const { isLoading: isPopularLoading, data: popular, isError: isPopularError, error: popularError } = usePopular()
+
 
   return (
     <SafeAreaView
@@ -23,7 +29,14 @@ const HomeScreen = () => {
           { useNativeDriver: true }
         )}
       >
-        <UserGames data={all_games} />
+        <UserGames data={popular} loading={isPopularLoading} error={popularError} isError={isPopularError} />
+        <Header action="See all">Release Week</Header>
+        <GameLists games={all_games}/>
+        <Header action="See all">Platforms</Header>
+        <GameLists games={all_games}/>
+        <Header action="See all">Popular Games</Header>
+        <GameLists games={all_games}/>
+        <View style={{ height: 100}}/>
       </Animated.ScrollView>
     </SafeAreaView>
   );

@@ -1,7 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Animated,
+  FlatList,
   Image,
   ImageBackground,
   ScrollView,
@@ -9,15 +10,46 @@ import {
   Text,
   View,
 } from "react-native";
+import ErrorScreen from "./ErrorScreen";
+import Loading from "./Loading";
 
-const UserGames = ({ data }) => {
-    const scrollX = React.useRef(new Animated.Value(0)).current;
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
+const UserGames = ({ data, loading, error, isError }) => {
+  const scrollX = React.useRef(new Animated.Value(0)).current;
+
+  if (loading) {
+    return <Loading helper={"Loading games ..."} />;
+  }
+  if (isError) {
+    return <ErrorScreen />;
+  }
+
+  const renderGames = (game) => {
+    return (
+      <View key={game.id} style={styles.game}>
+        <ImageBackground
+          source={{ uri: game.item.background_image }}
+          style={styles.cover}
+        >
+          <LinearGradient
+            style={styles.overlay}
+            colors={["transparent", "rgba(0,0,0,0.6)"]}
+          >
+            <Text style={styles.title}>{game.item.name}</Text>
+            <Text style={styles.editor}>{game.item.editor}</Text>
+          </LinearGradient>
+        </ImageBackground>
+      </View>
+    );
+  };
+
   return (
     <>
-      {data.games.map((game, index) => (
+      {data.results.map((game, index) => (
         <Animated.Image
           key={game.id}
-          source={{ uri: game.screenshots[0] }}
+          source={{ uri: game.background_image }}
           blurRadius={30}
           style={{
             position: "absolute",
@@ -33,48 +65,31 @@ const UserGames = ({ data }) => {
           }}
         />
       ))}
-        <LinearGradient
-        colors={['rgba(0, 0, 0, 0.3)', '#222']}
+      <LinearGradient
+        colors={["rgba(0, 0, 0, 0.3)", "#222"]}
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: 0,
           right: 0,
           top: 0,
           height: 400,
         }}
       />
-
-      <Animated.ScrollView
+      <AnimatedFlatList
         horizontal
-        onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true }
-          )}
-        contentContainerStyle={styles.contentContainer}
+        style={{ height: 400, }}
         showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.id.toString()}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: true }
+        )}
+        data={data.results}
+        renderItem={renderGames}
         snapToInterval={315}
         decelerationRate={"fast"}
         snapToAlignment={"start"}
-      >
-        {data.games.map((game) => {
-          return (
-            <View key={game.id} style={styles.game}>
-              <ImageBackground
-                source={{ uri: game.screenshots[0] }}
-                style={styles.cover}
-              >
-                <LinearGradient
-                  style={styles.overlay}
-                  colors={["transparent", "rgba(0,0,0,0.6)"]}
-                >
-                  <Text style={styles.title}>{game.title}</Text>
-                  <Text style={styles.editor}>{game.editor}</Text>
-                </LinearGradient>
-              </ImageBackground>
-            </View>
-          );
-        })}
-      </Animated.ScrollView>
+      />
     </>
   );
 };
@@ -88,6 +103,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   game: {
+    top: 90,
     marginRight: 15,
     shadowColor: "black",
     shadowOffset: { height: 0, width: 0 },
