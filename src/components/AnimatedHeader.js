@@ -25,7 +25,7 @@ const AnimatedHeader = ({ scroll }) => {
         ]}
       />
       <View style={styles.headerLeft}>
-        <Image style={styles.logo} source={require('../assets/images/logos.png')}/>
+        <Image style={styles.logo} source={require('../assets/images/logo.png')}/>
       </View>
       <View style={styles.headerRight}>
         <ButtonIcon icon="wifi-outline" style={{ marginRight: 15 }} />

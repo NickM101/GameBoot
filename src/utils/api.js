@@ -83,6 +83,7 @@ const getMonthRelease = async (page) => {
     params: {
       dates: `${start_month},${end_month}`,
       page: page,
+      page_size: '10'
     },
   });
   return data;
@@ -93,6 +94,7 @@ const getWeekRelease = async (page) => {
     params: {
       dates: `${start_week},${end_week}`,
       page: page,
+      page_size: '10'
     },
   });
   return data;

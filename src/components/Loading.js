@@ -3,23 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 const Loading = ({helper}) => {
-    // const animation = React.useRef(null).current;
-    // console.log('animation 1', animation)
-
-    // React.useEffect(() => {
-    //     console.log('animation 2', animation)
-
-    //     const play = animation.play()
-    //     return play()
-    // }, [])
     return (
         <View style={styles.container}>
             <LottieView
-            // ref={animation}
+            autoPlay loop
             style={styles.lottie}
             source={require('../assets/pong-game-loader.json')}
             />
-            <Text>{helper}</Text>
+            <Text style={{ color: 'white', alignSelf: 'center'}}>{helper}</Text>
         </View>
     )
 }

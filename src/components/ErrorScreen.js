@@ -2,20 +2,14 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 const ErrorScreen = () => {
-    const animation = React.useRef(null).current;
-
-    React.useEffect(() => {
-        const play = animation.play()
-        return play()
-    }, [])
     return (
         <View style={styles.container}>
             <LottieView
-            ref={animation}
+            autoplay loop
             style={styles.lottie}
             source={require('../assets/error.json')}
             />
-            <Text>{helper}</Text>
+            <Text style={{ color: 'white', alignSelf: 'center'}}>{helper}</Text>
         </View>
     )
 }

@@ -2,6 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { Fragment } from "react";
 import {
   Animated,
+  Button,
   FlatList,
   Image,
   ImageBackground,
@@ -10,6 +11,7 @@ import {
   Text,
   View,
 } from "react-native";
+import ButtonList from "./ButtonList";
 import ErrorScreen from "./ErrorScreen";
 import Loading from "./Loading";
 
@@ -24,20 +26,28 @@ const UserGames = ({ data, loading, error, isError }) => {
   if (isError) {
     return <ErrorScreen />;
   }
-
-  const renderGames = (game) => {
+  // const memoizedValue = useMemo(() => renderGames, [data.results]);
+  const renderGames = ({ item }) => {
     return (
-      <View key={game.id} style={styles.game}>
+      <View key={item.id} style={styles.game}>
         <ImageBackground
-          source={{ uri: game.item.background_image }}
+          source={{ uri: item.background_image }}
           style={styles.cover}
         >
           <LinearGradient
             style={styles.overlay}
             colors={["transparent", "rgba(0,0,0,0.6)"]}
           >
-            <Text style={styles.title}>{game.item.name}</Text>
-            <Text style={styles.editor}>{game.item.editor}</Text>
+            <Text style={styles.title}>{item.name}</Text>
+            <View style={styles.BTListContainer}>
+              {item.platforms.map((item) => {
+                return (
+                  <View style={styles.BTButton}>
+                    <Text style={styles.BTText}>{item.platform.name}</Text>
+                  </View>
+                );
+              })}
+            </View>
           </LinearGradient>
         </ImageBackground>
       </View>
@@ -59,7 +69,7 @@ const UserGames = ({ data, loading, error, isError }) => {
             left: 0,
             right: 0,
             opacity: scrollX.interpolate({
-              inputRange: [(index - 1) * 300, index * 300, (index + 1) * 300],
+              inputRange: [(index - 1) * 350, index * 350, (index + 1) * 350],
               outputRange: [0, 1, 0],
             }),
           }}
@@ -77,7 +87,7 @@ const UserGames = ({ data, loading, error, isError }) => {
       />
       <AnimatedFlatList
         horizontal
-        style={{ height: 400, }}
+        style={{ height: 450 }}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id.toString()}
         onScroll={Animated.event(
@@ -86,7 +96,7 @@ const UserGames = ({ data, loading, error, isError }) => {
         )}
         data={data.results}
         renderItem={renderGames}
-        snapToInterval={315}
+        snapToInterval={365}
         decelerationRate={"fast"}
         snapToAlignment={"start"}
       />
@@ -104,14 +114,14 @@ const styles = StyleSheet.create({
   },
   game: {
     top: 90,
-    marginRight: 15,
+    marginRight: 20,
     shadowColor: "black",
     shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 0.6,
   },
   cover: {
-    height: 300,
-    width: 300,
+    height: 350,
+    width: 350,
     borderRadius: 6,
     overflow: "hidden",
   },
@@ -119,7 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     justifyContent: "flex-end",
-    paddingBottom: 40,
+    paddingBottom: 30,
     paddingHorizontal: 15,
   },
   title: {
@@ -128,5 +138,21 @@ const styles = StyleSheet.create({
   },
   editor: {
     color: "white",
+  },
+  BTListContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  BTButton: {
+    borderColor: "#fff",
+    backgroundColor: "rgba(0,0,0,0)",
+    borderRadius: 5,
+    borderWidth: 1,
+    margin: 2,
+  },
+  BTText: {
+    fontSize: 10,
+    color: "#fff",
+    padding: 5,
   },
 });
