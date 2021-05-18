@@ -101,7 +101,6 @@ const getWeekRelease = async (page) => {
 };
 
 const getPopular = async () => {
-  console.log('start_year', start_year)
   const { data } = await rawg_axios.get(`/games?key=${API_KEY}`, {
     params: {
       dates: `${start_year},${end_year}`,
@@ -112,6 +111,24 @@ const getPopular = async () => {
   });
   return data;
 };
+
+export const getGenreID = async(id) => {
+  const { data } = await rawg_axios.get(`/games?key=${API_KEY}`,{
+    params: {
+      genres: id,
+      ordering: '-rating',
+      metacritic: "70,100",
+    }
+  });
+  return data;
+}
+
+export const getGameName = async(name) => {
+  const { data } = await igdb_axios.post(`/games`, {
+    data: `fields cover, summary, videos, storyline; search ${name} `
+  })
+  return data;
+}
 
 const getAllPlatforms = async () => {
   const { data } = await rawg_axios.get(`/platforms?key=${API_KEY}`);

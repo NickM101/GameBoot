@@ -7,13 +7,14 @@ import { BlurView } from 'expo-blur';
 import HomeScreen from '../screen/HomeScreen';
 import EmptyScreen from '../screen/EmptyScreen';
 import Icon from '../components/Icon';
-
+import BrowserScreen from '../screen/BrowserScreen';
+import GameScreen from '../screen/GameScreen';
 
 const Tab = createBottomTabNavigator();
 
 function BlurryBottomBar(props) {
   return (
-    <BlurView
+<BlurView
       intensity={100}
       tint="dark"
       style={{
@@ -25,6 +26,7 @@ function BlurryBottomBar(props) {
     >
       <BottomTabBar {...props} />
     </BlurView>
+    
   );
 }
 
@@ -35,8 +37,7 @@ export default function BottomNavigator() {
         showLabel: false,
         style: {
           backgroundColor: 'transparent',
-          backgroundColor: 'rgba(0,0,0,0.1)',
-          borderTopColor: "transparent"
+          borderColor: 'transparent',
         },
       }}
       tabBar={BlurryBottomBar}
@@ -57,7 +58,7 @@ export default function BottomNavigator() {
 
       <Tab.Screen
         name="Browse"
-        component={EmptyScreen}
+        component={BrowserScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Icon
@@ -71,7 +72,7 @@ export default function BottomNavigator() {
 
       <Tab.Screen
         name="Search"
-        component={EmptyScreen}
+        component={GameScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Icon

@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import LottieView from 'lottie-react-native';
 
-const ErrorScreen = () => {
+const ErrorScreen = ({ helper }) => {
     return (
         <View style={styles.container}>
             <LottieView

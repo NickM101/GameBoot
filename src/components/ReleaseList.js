@@ -7,17 +7,12 @@ import {
   Text,
   View,
 } from "react-native";
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
+import { useNavigation } from '@react-navigation/native';
 
-export default function ReleaseList({ data, loading, error, isError }) {
-  if(loading){
-    return <Text>Loading ...</Text>
-  }
-
-  if(error){
-    return <Text>{error}</Text>
-  }
+export default function ReleaseList({ data }) {
+  const navigation = useNavigation();
 
   const renderList = ({ item }) => {
     return (
@@ -26,6 +21,7 @@ export default function ReleaseList({ data, loading, error, isError }) {
         styles.gameContainer,
         pressed && styles.gameContainerPressed,
       ]}
+      onPress={() => navigation.push("Game", { item })}
       >
         <Image source={{ uri: item.background_image }} style={styles.game} />
 

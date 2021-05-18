@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,22 +15,18 @@ import {
 import ButtonList from "./ButtonList";
 import ErrorScreen from "./ErrorScreen";
 import Loading from "./Loading";
+import { useNavigation } from '@react-navigation/native';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const UserGames = ({ data, loading, error, isError }) => {
-  const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  if (loading) {
-    return <Loading helper={"Loading games ..."} />;
-  }
-  if (isError) {
-    return <ErrorScreen />;
-  }
-  // const memoizedValue = useMemo(() => renderGames, [data.results]);
+const UserGames = ({ data }) => {
+  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation();
+
   const renderGames = ({ item }) => {
     return (
-      <View key={item.id} style={styles.game}>
+      <Pressable key={item.id} style={styles.game} onPress={() => navigation.push("Game", { item })}>
         <ImageBackground
           source={{ uri: item.background_image }}
           style={styles.cover}
@@ -39,18 +36,10 @@ const UserGames = ({ data, loading, error, isError }) => {
             colors={["transparent", "rgba(0,0,0,0.6)"]}
           >
             <Text style={styles.title}>{item.name}</Text>
-            <View style={styles.BTListContainer}>
-              {item.platforms.map((item) => {
-                return (
-                  <View style={styles.BTButton}>
-                    <Text style={styles.BTText}>{item.platform.name}</Text>
-                  </View>
-                );
-              })}
-            </View>
+           <ButtonList item={item} category={'platforms'}/>
           </LinearGradient>
         </ImageBackground>
-      </View>
+      </Pressable>
     );
   };
 

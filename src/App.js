@@ -5,6 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import BottomNavigator from "./navigation/BottomNavigator";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { DEVELOPMENT } from '@env';
+import AppNavigator from "./navigation/AppNavigator";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +22,7 @@ export default function App() {
       <StatusBar barStyle="light-content" />
       <NavigationContainer theme={DarkTheme}>
         <QueryClientProvider client={queryClient}>
-          <BottomNavigator />
+          <AppNavigator />
         </QueryClientProvider>
       </NavigationContainer>
     </SafeAreaProvider>

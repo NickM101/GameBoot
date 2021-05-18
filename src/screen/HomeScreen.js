@@ -1,7 +1,6 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UserGames from "../components/UserGames";
-
 import * as all_games from "../assets/games.json";
 import AnimatedHeader from "../components/AnimatedHeader";
 import { Animated, FlatList, View } from "react-native";
@@ -9,6 +8,7 @@ import Header from "../components/Header";
 import GameLists from "../components/GameLists";
 import { useAllPlatforms, useHomeData, usePopular, useReleasedMonthly, useReleasedWeekly } from "../utils/api";
 import ReleaseList from "../components/ReleaseList";
+import Loading from "../components/Loading";
 
 const HomeScreen = () => {
   const scroll = React.useRef(new Animated.Value(0)).current;
@@ -16,9 +16,11 @@ const HomeScreen = () => {
   const { isLoading: isPopularLoading, data: popular, isError: isPopularError, error: popularError } = usePopular();
   const { isLoading: isWeeklyLoading, data: weekly, isError: isWeeklyError, error: weeklyError } = useReleasedWeekly(1);
   const { isLoading: isMonthlyLoading, data: monthly, isError: isMonthlyError, error: monthlyError } = useReleasedMonthly(1);
-  const { isLoading: isPlatformLoading, data: platform, isError: isPlatformError, error: platformError } = useAllPlatforms(1);
+  // const { isLoading: isPlatformLoading, data: platform, isError: isPlatformError, error: platformError } = useAllPlatforms(1);
 
-
+  if(isPopularLoading && isWeeklyLoading && isMonthlyLoading){
+    return <Loading helper={'Loading ....'}/>
+  }
   return (
     <SafeAreaView
       edges={["right", "bottom", "left"]}

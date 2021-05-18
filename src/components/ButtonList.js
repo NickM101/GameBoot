@@ -1,13 +1,40 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const ButtonList = ({ data }) => {
+const ButtonList = ({ item, category }) => {
+  if (category === "genres") {
+    return (
+      <View style={styles.BTListContainer}>
+        {item.genres.map((item) => {
+          return (
+            <View style={styles.BTButton}>
+              <Text style={styles.BTText}>{item.name}</Text>
+            </View>
+          );
+        })}
+      </View>
+    );
+  }
+
+  if (category === "stores") {
+    return (
+      <View style={styles.BTListContainer}>
+        {item.stores.map((item) => {
+          return (
+            <View style={styles.BTButton}>
+              <Text style={styles.BTText}>{item.store.name}</Text>
+            </View>
+          );
+        })}
+      </View>
+    );
+  }
   return (
     <View style={styles.BTListContainer}>
-      {data.map((item) => {
+      {item.platforms.map((item) => {
         return (
           <View style={styles.BTButton}>
-            {/* <Text style={styles.BTText}>{item.name}</Text> */}
+            <Text style={styles.BTText}>{item.platform.name}</Text>
           </View>
         );
       })}
