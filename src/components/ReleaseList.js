@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function ReleaseList({ data }) {
   const navigation = useNavigation();
 
-  const renderList = ({ item }) => {
+  const renderList = React.useCallback(({ item }) => {
     return (
       <Pressable
       style={({ pressed }) => [
@@ -31,16 +31,17 @@ export default function ReleaseList({ data }) {
         </View>
       </Pressable>
     );
-  };
+  });
 
-  const memoizedValue = React.useMemo(() => renderList, [data.results]);
+  // const memoizedValue = React.useMemo(() => renderList, [data.results]);
   return (
     <FlatList
       data={data.results}
       horizontal
-      keyExtractor={(item) => item.id.toString()}
+      // keyExtractor={(item) => item.id.toString()}
+      keyExtractor={React.useCallback((item) => item.id.toString(), [])}
       // initialNumToRender={7}
-      renderItem={memoizedValue}
+      renderItem={renderList}
       showsHorizontalScrollIndicator={false}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}

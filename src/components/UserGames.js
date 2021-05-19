@@ -1,20 +1,15 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { Fragment } from "react";
+import React from "react";
 import {
   Animated,
-  Button,
   FlatList,
-  Image,
   ImageBackground,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
-  View,
+  Image
 } from "react-native";
 import ButtonList from "./ButtonList";
-import ErrorScreen from "./ErrorScreen";
-import Loading from "./Loading";
 import { useNavigation } from '@react-navigation/native';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -24,7 +19,7 @@ const UserGames = ({ data }) => {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
-  const renderGames = ({ item }) => {
+  const renderGames = React.useCallback(({ item }) => {
     return (
       <Pressable key={item.id} style={styles.game} onPress={() => navigation.push("Game", { item })}>
         <ImageBackground
@@ -41,7 +36,7 @@ const UserGames = ({ data }) => {
         </ImageBackground>
       </Pressable>
     );
-  };
+  });
 
   return (
     <>
@@ -78,7 +73,7 @@ const UserGames = ({ data }) => {
         horizontal
         style={{ height: 450 }}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={React.useCallback((item) => item.id.toString(), [])}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true }

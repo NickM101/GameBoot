@@ -1,11 +1,12 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, LogBox } from "react-native";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import BottomNavigator from "./navigation/BottomNavigator";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { DEVELOPMENT } from '@env';
 import AppNavigator from "./navigation/AppNavigator";
+
+LogBox.ignoreWarnings = (['Setting a timer']);
 
 const queryClient = new QueryClient({
   defaultOptions: {

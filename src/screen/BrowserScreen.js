@@ -6,16 +6,14 @@ import {
   Text,
   View,
   FlatList,
-  Image,
+  Image
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery } from "react-query";
-import { BlurView } from "expo-blur";
 import ErrorScreen from "../components/ErrorScreen";
 import Loading from "../components/Loading";
 import { getGenreID } from "../utils/api";
 import { categories } from "../utils/BootList";
-import { LinearGradient } from "expo-linear-gradient";
 import Rating from "../components/Rating";
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'

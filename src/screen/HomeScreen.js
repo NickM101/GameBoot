@@ -1,12 +1,10 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UserGames from "../components/UserGames";
-import * as all_games from "../assets/games.json";
 import AnimatedHeader from "../components/AnimatedHeader";
 import { Animated, FlatList, View } from "react-native";
 import Header from "../components/Header";
-import GameLists from "../components/GameLists";
-import { useAllPlatforms, useHomeData, usePopular, useReleasedMonthly, useReleasedWeekly } from "../utils/api";
+import { usePopular, useReleasedMonthly, useReleasedWeekly } from "../utils/api";
 import ReleaseList from "../components/ReleaseList";
 import Loading from "../components/Loading";
 

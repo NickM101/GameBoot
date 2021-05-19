@@ -20,7 +20,8 @@ export default Loading;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#222'
+        backgroundColor: '#222',
+        alignContent: 'center'
     },
     lottie: {
         width:400,
